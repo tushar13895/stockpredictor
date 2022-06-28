@@ -8,4 +8,3 @@ scikit-learn==1.0.2
 pystan==2.18.0.0
 fbprophet==0.7.1
 yfinance==0.1.64
-
