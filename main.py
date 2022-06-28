@@ -1,3 +1,5 @@
+!pip install numpy==1.18.3
+
 from pandas.core.base import DataError
 from datetime  import date
 from datetime import timedelta
