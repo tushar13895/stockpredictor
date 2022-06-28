@@ -1,9 +1,10 @@
 streamlit==1.2.0
 pandas==1.2.4
+numpy==1.20.1
 base58==2.1.1
 plotly==5.3.1
 scikit-learn==1.0.2
 pystan==2.18.0.0
 fbprophet==0.7.1
 yfinance==0.1.64
-numpy==1.20.1
+
