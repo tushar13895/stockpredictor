@@ -2,8 +2,8 @@ from pandas.core.base import DataError
 from datetime  import date
 from datetime import timedelta
 from datetime import datetime
-from fbprophet import Prophet
-from fbprophet.plot import plot_plotly
+# from fbprophet import Prophet
+# from fbprophet.plot import plot_plotly
 from plotly import graph_objs as go
 
 import yfinance as yf
@@ -253,53 +253,53 @@ def PlotMA(ticker):
     
     st.plotly_chart(fig, use_container_width=True) 
 
-#Function to model and forecast stock value
-def forecasting(ticker):
+# #Function to model and forecast stock value
+# def forecasting(ticker):
 
-    #Modelling past data
-    st.subheader('Select the modeling period')
-    start_train = st.date_input("From date", date.today() - timedelta(days=365), min_value=date(1980, 1, 1), max_value=date.today() - timedelta(days=5)  , key='sd')
-    end_train = st.date_input("To date", date.today(), min_value=start_train + timedelta(days=5), max_value=date.today(), key ='ed')
-    if(end_train<=start_train):
-        st.error('Error: End date must fall after start date.')
-    else:
-        data_train = yf.download(ticker, start_train, end_train)
-        data_train.reset_index(inplace = True)
-        df_train = data_train[['Date','Close']]
-        df_train = df_train.rename(
-            columns={
-                'Date': 'ds',
-                'Close': 'y'
-                }
-        )
+#     #Modelling past data
+#     st.subheader('Select the modeling period')
+#     start_train = st.date_input("From date", date.today() - timedelta(days=365), min_value=date(1980, 1, 1), max_value=date.today() - timedelta(days=5)  , key='sd')
+#     end_train = st.date_input("To date", date.today(), min_value=start_train + timedelta(days=5), max_value=date.today(), key ='ed')
+#     if(end_train<=start_train):
+#         st.error('Error: End date must fall after start date.')
+#     else:
+#         data_train = yf.download(ticker, start_train, end_train)
+#         data_train.reset_index(inplace = True)
+#         df_train = data_train[['Date','Close']]
+#         df_train = df_train.rename(
+#             columns={
+#                 'Date': 'ds',
+#                 'Close': 'y'
+#                 }
+#         )
 
-    #Forecast model to predict future prices
-    st.subheader('Select the prediction period')
-    n_years = st.slider("Years of prediction", 1, 10)
-    period = n_years * 365
-    with st.spinner('Loading...'):
-        m = Prophet()
-        m.fit(df_train)
-        future = m.make_future_dataframe(periods = period)
-        forecast = m.predict(future)
+#     #Forecast model to predict future prices
+#     st.subheader('Select the prediction period')
+#     n_years = st.slider("Years of prediction", 1, 10)
+#     period = n_years * 365
+#     with st.spinner('Loading...'):
+#         m = Prophet()
+#         m.fit(df_train)
+#         future = m.make_future_dataframe(periods = period)
+#         forecast = m.predict(future)
 
-        st.subheader("Forecast Data")
-        forecast_actual = forecast.copy()
-        forecast_actual = forecast_actual.rename(
-            columns={
-                'ds':'Date',
-                'yhat':'Predicted Stock Price',
-                'yhat_upper':'Predicted Upper Limit',
-                'yhat_lower':'Predicted Lower Limit'}
-                )
-        st.write(forecast_actual[['Date','Predicted Stock Price','Predicted Lower Limit','Predicted Upper Limit']].tail())
+#         st.subheader("Forecast Data")
+#         forecast_actual = forecast.copy()
+#         forecast_actual = forecast_actual.rename(
+#             columns={
+#                 'ds':'Date',
+#                 'yhat':'Predicted Stock Price',
+#                 'yhat_upper':'Predicted Upper Limit',
+#                 'yhat_lower':'Predicted Lower Limit'}
+#                 )
+#         st.write(forecast_actual[['Date','Predicted Stock Price','Predicted Lower Limit','Predicted Upper Limit']].tail())
 
-        fig1 = plot_plotly(m,forecast)
-        fig1.update_layout(xaxis_title = 'Time', yaxis_title = 'Closing Price')
-        st.plotly_chart(fig1, use_container_width=True)
+#         fig1 = plot_plotly(m,forecast)
+#         fig1.update_layout(xaxis_title = 'Time', yaxis_title = 'Closing Price')
+#         st.plotly_chart(fig1, use_container_width=True)
 
-        fig2 = m.plot_components(forecast)
-        st.write(fig2)
+#         fig2 = m.plot_components(forecast)
+#         st.write(fig2)
 
 #main function
 if __name__ == "__main__":
@@ -315,7 +315,7 @@ if __name__ == "__main__":
         Today = st.date_input("End date", date.today(), min_value=date(1980, 1, 1), max_value=datetime.today())
         if(Today<=Start):
             st.error('Error: End date must fall after start date.')
-        menu = st.selectbox("Menu Options",('Home','Company Profile','Descriptive Data','Technical Indicators','Prediction')) 
+        menu = st.selectbox("Menu Options",('Home','Company Profile','Descriptive Data','Technical Indicators')) 
         data = load_data(selected_stock)
 
     #calling all defined functions based on user input of menu
@@ -334,8 +334,8 @@ if __name__ == "__main__":
         daily_returns()
         PlotMA(selected_stock)
         RSI()
-    elif(menu == "Prediction"):
-        forecasting(selected_stock)
+#     elif(menu == "Prediction"):
+#         forecasting(selected_stock)
         
 
         
